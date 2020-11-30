@@ -37,6 +37,12 @@ var app = (function () {
     function detach(node) {
         node.parentNode.removeChild(node);
     }
+    function destroy_each(iterations, detaching) {
+        for (let i = 0; i < iterations.length; i += 1) {
+            if (iterations[i])
+                iterations[i].d(detaching);
+        }
+    }
     function element(name) {
         return document.createElement(name);
     }
@@ -330,6 +336,15 @@ var app = (function () {
         else
             dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
     }
+    function validate_each_argument(arg) {
+        if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
+            let msg = '{#each} only iterates over array-like objects.';
+            if (typeof Symbol === 'function' && arg && Symbol.iterator in arg) {
+                msg += ' You can use a spread to convert this iterable into an array.';
+            }
+            throw new Error(msg);
+        }
+    }
     function validate_slots(name, slot, keys) {
         for (const slot_key of Object.keys(slot)) {
             if (!~keys.indexOf(slot_key)) {
@@ -358,6 +373,86 @@ var app = (function () {
 
     const file = "src/pages/Index.svelte";
 
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[1] = list[i].title;
+    	child_ctx[2] = list[i].bannerURL;
+    	child_ctx[3] = list[i].bannerAlt;
+    	child_ctx[4] = list[i].description;
+    	return child_ctx;
+    }
+
+    // (30:4) {#each cards as { title, bannerURL, bannerAlt, description }}
+    function create_each_block(ctx) {
+    	let div1;
+    	let h3;
+    	let t0_value = /*title*/ ctx[1] + "";
+    	let t0;
+    	let t1;
+    	let div0;
+    	let img;
+    	let img_src_value;
+    	let img_alt_value;
+    	let t2;
+    	let p;
+    	let t3_value = /*description*/ ctx[4] + "";
+    	let t3;
+    	let t4;
+
+    	const block = {
+    		c: function create() {
+    			div1 = element("div");
+    			h3 = element("h3");
+    			t0 = text(t0_value);
+    			t1 = space();
+    			div0 = element("div");
+    			img = element("img");
+    			t2 = space();
+    			p = element("p");
+    			t3 = text(t3_value);
+    			t4 = space();
+    			attr_dev(h3, "class", "svelte-59mtui");
+    			add_location(h3, file, 31, 12, 921);
+    			if (img.src !== (img_src_value = /*bannerURL*/ ctx[2])) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", img_alt_value = "" + (/*bannerAlt*/ ctx[3] + " banner"));
+    			attr_dev(img, "class", "svelte-59mtui");
+    			add_location(img, file, 33, 16, 999);
+    			attr_dev(div0, "class", "card-banner-crop svelte-59mtui");
+    			add_location(div0, file, 32, 12, 952);
+    			attr_dev(p, "class", "svelte-59mtui");
+    			add_location(p, file, 35, 12, 1082);
+    			attr_dev(div1, "class", "card svelte-59mtui");
+    			add_location(div1, file, 30, 8, 890);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, h3);
+    			append_dev(h3, t0);
+    			append_dev(div1, t1);
+    			append_dev(div1, div0);
+    			append_dev(div0, img);
+    			append_dev(div1, t2);
+    			append_dev(div1, p);
+    			append_dev(p, t3);
+    			append_dev(div1, t4);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div1);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(30:4) {#each cards as { title, bannerURL, bannerAlt, description }}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     function create_fragment(ctx) {
     	let header;
     	let section;
@@ -369,8 +464,16 @@ var app = (function () {
     	let t5;
     	let h3;
     	let t7;
-    	let div1;
-    	let div0;
+    	let p;
+    	let t9;
+    	let div;
+    	let each_value = /*cards*/ ctx[0];
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
 
     	const block = {
     		c: function create() {
@@ -386,26 +489,32 @@ var app = (function () {
     			h12.textContent = "but you can call me Ben";
     			t5 = space();
     			h3 = element("h3");
-    			h3.textContent = "I'm a self led software developer/engineer.";
+    			h3.textContent = "I'm a self taught software developer/engineer.";
     			t7 = space();
-    			div1 = element("div");
-    			div0 = element("div");
-    			attr_dev(h10, "class", "svelte-105bak5");
-    			add_location(h10, file, 6, 8, 72);
-    			attr_dev(h11, "class", "svelte-105bak5");
-    			add_location(h11, file, 7, 8, 93);
-    			attr_dev(h12, "class", "svelte-105bak5");
-    			add_location(h12, file, 8, 8, 131);
-    			attr_dev(h3, "class", "svelte-105bak5");
-    			add_location(h3, file, 9, 8, 172);
+    			p = element("p");
+    			p.textContent = "Here are some of my projects";
+    			t9 = space();
+    			div = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			attr_dev(h10, "class", "svelte-59mtui");
+    			add_location(h10, file, 20, 8, 575);
+    			attr_dev(h11, "class", "svelte-59mtui");
+    			add_location(h11, file, 21, 8, 596);
+    			attr_dev(h12, "class", "svelte-59mtui");
+    			add_location(h12, file, 22, 8, 634);
+    			attr_dev(h3, "class", "svelte-59mtui");
+    			add_location(h3, file, 23, 8, 675);
     			attr_dev(section, "class", "header-tags");
-    			add_location(section, file, 5, 4, 34);
-    			attr_dev(header, "class", "svelte-105bak5");
-    			add_location(header, file, 4, 0, 21);
-    			attr_dev(div0, "class", "card svelte-105bak5");
-    			add_location(div0, file, 14, 4, 278);
-    			attr_dev(div1, "class", "projects svelte-105bak5");
-    			add_location(div1, file, 13, 0, 251);
+    			add_location(section, file, 19, 4, 537);
+    			attr_dev(header, "class", "svelte-59mtui");
+    			add_location(header, file, 18, 0, 524);
+    			add_location(p, file, 27, 0, 757);
+    			attr_dev(div, "class", "projects svelte-59mtui");
+    			add_location(div, file, 28, 0, 793);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -421,16 +530,48 @@ var app = (function () {
     			append_dev(section, t5);
     			append_dev(section, h3);
     			insert_dev(target, t7, anchor);
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, div0);
+    			insert_dev(target, p, anchor);
+    			insert_dev(target, t9, anchor);
+    			insert_dev(target, div, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div, null);
+    			}
     		},
-    		p: noop,
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*cards*/ 1) {
+    				each_value = /*cards*/ ctx[0];
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(div, null);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value.length;
+    			}
+    		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(header);
     			if (detaching) detach_dev(t7);
-    			if (detaching) detach_dev(div1);
+    			if (detaching) detach_dev(p);
+    			if (detaching) detach_dev(t9);
+    			if (detaching) detach_dev(div);
+    			destroy_each(each_blocks, detaching);
     		}
     	};
 
@@ -445,16 +586,33 @@ var app = (function () {
     	return block;
     }
 
-    function instance($$self, $$props) {
+    function instance($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Index", slots, []);
+
+    	const cards = [
+    		{
+    			title: "Watermelon Lol",
+    			bannerURL: "https://brainfactorygraphicsengine.files.wordpress.com/2013/07/shutterstock-1.jpg",
+    			bannerAlt: "Test card",
+    			description: "This is a test"
+    		},
+    		{
+    			title: "Ur dum",
+    			bannerURL: "https://brainfactorygraphicsengine.files.wordpress.com/2013/07/shutterstock-1.jpg",
+    			bannerAlt: "Test card",
+    			description: "It's true"
+    		}
+    	];
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Index> was created with unknown prop '${key}'`);
     	});
 
-    	return [];
+    	$$self.$capture_state = () => ({ cards });
+    	return [cards];
     }
 
     class Index extends SvelteComponentDev {
