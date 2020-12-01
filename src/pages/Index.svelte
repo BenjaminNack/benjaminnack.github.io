@@ -12,6 +12,12 @@
             bannerAlt: "Chat app",
             description: "I had wanted to figure out how messaging apps work for a while, so I built one using svelte and RxFire."
         },
+        {
+            title: "Server manager discord bot",
+            bannerURL: "",
+            bannerAlt: "",
+            description: "I wrote this discord bot to manage my own discord server and allow me to easily send ascii art but I made it available to all."
+        }
     ];
 
 </script>
