@@ -17,6 +17,7 @@
 <style>
     .page-list {
         list-style-type: none;
+        padding-left: 20px;
     }
 
     .page-item {
