@@ -64,7 +64,6 @@
         flex-shrink: 0;
         justify-items: flex-start;
         align-items: stretch;
-        gap: 10px;
         height: 300px;
 
         overflow: auto;
@@ -75,6 +74,7 @@
     }
 
     .card {
+        margin-right: 10px;
         display: flex;
         flex-direction: column;
 
