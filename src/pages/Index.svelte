@@ -14,10 +14,10 @@
         },
         {
             title: "Server manager discord bot",
-            bannerURL: "",
-            bannerAlt: "",
+            bannerURL: "/card-banners/Discord Bot Banner-tinypng.png",
+            bannerAlt: "Discord logo with gears and xrayed hands",
             description: "I wrote this discord bot to manage my own discord server and allow me to easily send ascii art but I made it available to all."
-        }
+        },
     ];
 
 </script>
