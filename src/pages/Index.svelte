@@ -1,17 +1,17 @@
 <script>
     const cards = [
         { 
-            title: "Watermelon Lol",
-            bannerURL: "https://brainfactorygraphicsengine.files.wordpress.com/2013/07/shutterstock-1.jpg",
-            bannerAlt: "Test card",
-            description: "This is a test"
+            title: "Animated RGB Christmas Lights",
+            bannerURL: "/card-banners/Christmas Lights proj.jpg",
+            bannerAlt: "Animated Christmas lights",
+            description: "I was bored during the pandemic, so I wrote a simple node js application to control RGB strips with a raspberrypi 0."
         },
-        { 
-            title: "Ur dum",
-            bannerURL: "https://brainfactorygraphicsengine.files.wordpress.com/2013/07/shutterstock-1.jpg",
-            bannerAlt: "Test card",
-            description: "It's true"
-        }
+        {
+            title: "Chat App with firebase and svelte",
+            bannerURL: "/card-banners/Chat app banner-tiny png.jpg",
+            bannerAlt: "Chat app",
+            description: "I had wanted to figure out how messaging apps work for a while, so I built one using svelte and RxFire."
+        },
     ];
 
 </script>
@@ -90,6 +90,7 @@
 
     .card * {
         margin-left: 10%;
+        margin-right: 10%;
     }
 
     .card-banner-crop {
