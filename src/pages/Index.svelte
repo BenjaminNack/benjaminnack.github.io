@@ -99,7 +99,7 @@
         align-items: center;
         width: 80%;
         overflow: hidden;
-        max-height: 200px;
+        max-height: 100px;
         
     }
     .card-banner-crop img {
