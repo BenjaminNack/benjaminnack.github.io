@@ -21,7 +21,7 @@
         <h1>Hi,</h1>
         <h1>my name is Benjamin,</h1>
         <h1>but you can call me Ben</h1>
-        <h3>I'm a self taught software developer/engineer.</h3>
+        <h3>I'm a self taught software developer.</h3>
     </section>
 </header>
 
