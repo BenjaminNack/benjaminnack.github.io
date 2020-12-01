@@ -31,7 +31,7 @@
         <div class="card">
             <h3>{ title }</h3>
             <div class="card-banner-crop">
-                <img src="{ bannerURL }" alt="{bannerAlt} banner"/>
+                <img src="{ bannerURL }" alt="{bannerAlt}  banner" loading="lazy"/>
             </div>
             <p>{ description }</p>
         </div>
